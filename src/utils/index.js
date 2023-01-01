@@ -16,12 +16,13 @@ function extractDataFromMessage(baileysMessage) {
             fullMessage: '',
             command: '',
             args: '',
-            isImage: false
+            isImage: false,
+            isSticker: false
         }
     }
 
-    const isImage = !!baileysMessage.message?.imageMessage ||
-       !!baileysMessage.message?.extendedTextMessage?.contextInfo?.quotedMessage?.imageMessage
+    const isImage = is(baileysMessage, 'image')
+    const isSticker = is(baileysMessage, 'sticker')
 
     const [command, ...args] = fullMessage.trim().split(' ')
     const arg = args.reduce((acc, arg) => acc + ' ' + arg, '').trim()
@@ -31,8 +32,19 @@ function extractDataFromMessage(baileysMessage) {
         fullMessage,
         command: command.replace(PREFIX, '').trim(),
         args: arg.trim(),
-        isImage
+        isImage,
+        isSticker
     }
+}
+
+function is(baileysMessage, context) {
+    return !!baileysMessage.message?.[`${context}Message`] ||
+        !!baileysMessage.message?.extendedTextMessage?.contextInfo?.quotedMessage?.[`${context}Message`]
+}
+
+function getContent(baileysMessage, context) {
+    return baileysMessage.message?.[`${context}Message`] ||
+        baileysMessage.message?.extendedTextMessage?.contextInfo?.quotedMessage?.[`${context}Message`]
 }
 
 function isCommand(baileysMessage) {
@@ -42,14 +54,13 @@ function isCommand(baileysMessage) {
 }
 
 async function downloadImage(baileysMessage, fileName) {
-    const content = baileysMessage.message?.imageMessage ||
-       baileysMessage.message?.extendedTextMessage?.contextInfo?.quotedMessage?.imageMessage
+    const content = getContent(baileysMessage, 'image')
 
-    if(!content) {
+    if (!content) {
         return null
     }
 
-    const stream =  await downloadContentFromMessage(content, 'image')
+    const stream = await downloadContentFromMessage(content, 'image')
     let buffer = Buffer.from([])
 
     for await (const chunk of stream) {
@@ -62,7 +73,28 @@ async function downloadImage(baileysMessage, fileName) {
     return filePath
 }
 
+async function downloadSticker(baileysMessage, fileName) {
+    const content = getContent(baileysMessage, 'sticker')
+
+    if (!content) {
+        return null
+    }
+
+    const stream = await downloadContentFromMessage(content, 'sticker')
+    let buffer = Buffer.from([])
+
+    for await (const chunk of stream) {
+        buffer = Buffer.concat([buffer, chunk])
+    }
+
+    const filePath = path.resolve(TEMP_FOLDER, `${fileName}.webp`)
+    await writeFile(filePath, buffer)
+
+    return filePath
+}
+
 module.exports = {
+    downloadSticker,
     downloadImage,
     extractDataFromMessage,
     isCommand
