@@ -1,0 +1,20 @@
+{
+  "name": "bot-w",
+  "version": "1.0.0",
+  "description": "Bot de whatsapp feito apenas com javascript",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index"
+  },
+  "keywords": [
+    "javascript",
+    "nodejs",
+    "whatsapp"
+  ],
+  "author": "Kurumi30",
+  "license": "MIT",
+  "dependencies": {
+    "@adiwajshing/baileys": "^4.4.0",
+    "qrcode-terminal": "^0.12.0"
+  }
+}
