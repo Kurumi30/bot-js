@@ -98,4 +98,3 @@ module.exports = {
     extractDataFromMessage,
     isCommand
 }
-

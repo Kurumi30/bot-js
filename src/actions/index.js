@@ -11,8 +11,7 @@ const fs = require("fs")
 
 class Action {
     constructor(bot, baileysMessage) {
-        const { remoteJid, args, isImage, isVideo, isSticker } =
-            extractDataFromMessage(baileysMessage)
+        const { remoteJid, args, isImage, isVideo, isSticker } = extractDataFromMessage(baileysMessage)
 
         this.bot = bot
         this.remoteJid = remoteJid
