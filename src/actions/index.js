@@ -7,7 +7,8 @@ const {
 } = require("../utils")
 const path = require("path");
 const { exec } = require("child_process")
-const fs = require("fs")
+const fs = require("fs");
+const { consultarCep } = require("correios-brasil");
 
 class Action {
     constructor(bot, baileysMessage) {
@@ -20,6 +21,44 @@ class Action {
         this.isVideo = isVideo
         this.isSticker = isSticker
         this.baileysMessage = baileysMessage
+    }
+
+    async cep() {
+        if (!this.args || ![8, 9].includes(this.args.length)) {
+            await this.bot.sendMessage(this.remoteJid, {
+                text: `${BOT_EMOJI} ❌ Erro! Você precisa enviar um CEP no formato xxxxx-xxx ou xxxxxxxx!`,
+            })
+            return
+        }
+
+        try {
+            const { data } = await consultarCep(this.args)
+
+            if (!data.cep) {
+                await this.bot.sendMessage(this.remoteJid, {
+                    text: `${BOT_EMOJI} ⚠ Atenção! CEP não encontrado!`,
+                })
+                return
+            }
+
+            await this.bot.sendMessage(this.remoteJid, {
+                text: `${BOT_EMOJI} *Resultado*:
+                *CEP*: ${data.cep}
+                *Logradouro*: ${data.logradouro}
+                *Complemento*: ${data.complemento}
+                *Bairro*: ${data.bairro}
+                *Localidade*: ${data.localidade}
+                *UF*: ${data.uf}
+                *IBGE*: ${data.ibge}`
+            })
+        } catch (error) {
+            console.error(error)
+
+            await this.bot.sendMessage(this.remoteJid, {
+                text: `${BOT_EMOJI} ❌ Erro! Contate o proprietário do bot para resolver o problema!
+                Erro: ${error.message}`,
+            })
+        }
     }
 
     async sticker() {
