@@ -5,10 +5,10 @@ const {
     downloadVideo,
     downloadSticker,
 } = require("../utils")
-const path = require("path");
+const path = require("path")
 const { exec } = require("child_process")
 const fs = require("fs");
-const { consultarCep } = require("correios-brasil");
+const { consultarCep } = require("correios-brasil")
 
 class Action {
     constructor(bot, baileysMessage) {
