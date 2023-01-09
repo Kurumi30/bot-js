@@ -1,4 +1,8 @@
-const { default: makeWASocket, DisconnectReason, useMultiFileAuthState } = require('@adiwajshing/baileys')
+const {
+    default: makeWASocket,
+    DisconnectReason,
+    useMultiFileAuthState
+} = require('@adiwajshing/baileys')
 
 async function connect() {
     const { state, saveCreds } = await useMultiFileAuthState('./assets/auth/baileys')
@@ -11,10 +15,10 @@ async function connect() {
     bot.ev.on('connection.update', (update) => {
         const { connection, lastDisconnect } = update
 
-        if(connection === 'close') {
+        if (connection === 'close') {
             const shouldReconnect = lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut
 
-            if(shouldReconnect) {
+            if (shouldReconnect) {
                 connect()
             }
         }

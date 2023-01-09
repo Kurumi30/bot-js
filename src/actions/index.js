@@ -9,6 +9,7 @@ const path = require("path")
 const { exec } = require("child_process")
 const fs = require("fs");
 const { consultarCep } = require("correios-brasil")
+const { errorMessage, warningMessage } = require("../utils/messages")
 
 class Action {
     constructor(bot, baileysMessage) {
@@ -26,7 +27,7 @@ class Action {
     async cep() {
         if (!this.args || ![8, 9].includes(this.args.length)) {
             await this.bot.sendMessage(this.remoteJid, {
-                text: `${BOT_EMOJI} ❌ Erro! Você precisa enviar um CEP no formato xxxxx-xxx ou xxxxxxxx!`,
+                text: errorMessage('Você precisa enviar um CEP no formato xxxxx-xxx ou xxxxxxxx!'),
             })
             return
         }
@@ -36,7 +37,7 @@ class Action {
 
             if (!data.cep) {
                 await this.bot.sendMessage(this.remoteJid, {
-                    text: `${BOT_EMOJI} ⚠ Atenção! CEP não encontrado!`,
+                    text: warningMessage('CEP não encontrado!'),
                 })
                 return
             }
@@ -55,8 +56,8 @@ class Action {
             console.error(error)
 
             await this.bot.sendMessage(this.remoteJid, {
-                text: `${BOT_EMOJI} ❌ Erro! Contate o proprietário do bot para resolver o problema!
-                Erro: ${error.message}`,
+                text: errorMessage(`Contate o proprietário do bot para resolver o problema!
+                Erro: ${error.message}`),
             })
         }
     }
@@ -64,7 +65,7 @@ class Action {
     async sticker() {
         if (!this.isImage && !this.isVideo) {
             await this.bot.sendMessage(this.remoteJid, {
-                text: `${BOT_EMOJI} ❌ Erro! Você precisa enviar uma imagem ou um vídeo!`,
+                text: warningMessage('Você precisa enviar uma imagem ou um vídeo!'),
             })
             return
         }
@@ -81,7 +82,7 @@ class Action {
                         fs.unlinkSync(inputPath)
 
                         await this.bot.sendMessage(this.remoteJid, {
-                            text: `${BOT_EMOJI} ❌ Erro ao converter a imagem para figurinha!`,
+                            text: errorMessage('Ao converter a imagem para figurinha!'),
                         })
 
                         return
@@ -108,8 +109,8 @@ class Action {
                 fs.unlinkSync(inputPath)
 
                 await this.bot.sendMessage(this.remoteJid, {
-                    text: `${BOT_EMOJI} ❌ Erro! O vídeo que você enviou tem mais de ${sizeInSeconds} segundos! 
-                    Envie um vídeo menor!`,
+                    text: warningMessage(`O vídeo que você enviou tem mais de ${sizeInSeconds} segundos! 
+                    Envie um vídeo menor!`),
                 })
 
                 return
@@ -122,7 +123,7 @@ class Action {
                         fs.unlinkSync(inputPath)
 
                         await this.bot.sendMessage(this.remoteJid, {
-                            text: `${BOT_EMOJI} ❌ Erro ao converter o vídeo/gif para figurinha!`,
+                            text: errorMessage('ao converter o vídeo/gif para figurinha!'),
                         })
 
                         return
@@ -142,7 +143,7 @@ class Action {
     async toImage() {
         if (!this.isSticker) {
             await this.bot.sendMessage(this.remoteJid, {
-                text: `${BOT_EMOJI} ❌ Erro! Você precisa enviar um sticker!`,
+                text: errorMessage('Você precisa enviar um sticker!'),
             })
             return
         }
@@ -154,7 +155,7 @@ class Action {
             if (error) {
                 console.log(error)
                 await this.bot.sendMessage(this.remoteJid, {
-                    text: `${BOT_EMOJI} ❌ Erro ao converter o sticker para figurinha!`,
+                    text: errorMessage('ao converter o sticker para figurinha!'),
                 })
                 return
             }
