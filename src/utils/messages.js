@@ -1,4 +1,4 @@
-const { BOT_EMOJI, BOT_NAME, PREFIX } = require("../config");
+const { BOT_EMOJI, BOT_NAME, PREFIX, BOT_OWNER } = require("../config");
 
 function errorMessage(message) {
     return `${BOT_EMOJI} ❌ Erro! ${message}`
@@ -29,6 +29,7 @@ function menuMessage() {
     ▢ • ${PREFIX}toimage
     ▢ 
     ╰━━─「🚀」─━━
+    Criado por: ${BOT_OWNER}
     `
 }
 
