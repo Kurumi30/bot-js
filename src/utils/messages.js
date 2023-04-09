@@ -24,6 +24,7 @@ function menuMessage() {
     ╭━━⪩ MENU ⪨━━
     ▢ 
     ▢ • ${PREFIX}cep
+    ▢ • ${PREFIX}gpt
     ▢ • ${PREFIX}ping
     ▢ • ${PREFIX}sticker
     ▢ • ${PREFIX}toimage

@@ -4,7 +4,8 @@
   "description": "Bot de whatsapp feito apenas com javascript",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/index"
+    "start": "node ./src/index",
+    "dev": "node ./src/index"
   },
   "keywords": [
     "javascript",
@@ -15,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "@adiwajshing/baileys": "^4.4.0",
+    "axios": "^1.3.5",
     "correios-brasil": "^3.0.3",
     "qrcode-terminal": "^0.12.0"
   }
