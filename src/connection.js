@@ -9,7 +9,8 @@ async function connect() {
     const bot = makeWASocket({
         printQRInTerminal: true,
         auth: state,
-        defaultQueryTimeoutMs: undefined
+        defaultQueryTimeoutMs: undefined,
+        logger: "error"
     })
 
     bot.ev.on('connection.update', (update) => {

@@ -23,6 +23,8 @@ async function middlewares(bot) {
                 break
             case 'f':
             case 'fig':
+            case 's':
+            case 'sticker':
                 await action.sticker()
                 break
             case 'menu':
@@ -37,6 +39,7 @@ async function middlewares(bot) {
                 await action.toImage()
                 break
             case 'gpt':
+            case 'ia':
                 await action.gpt()
                 break
         }
