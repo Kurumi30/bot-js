@@ -28,6 +28,7 @@ async function middlewares(bot) {
                 await action.sticker()
                 break
             case 'menu':
+            case 'comandos':
             case 'help':
                 await bot.sendMessage(remoteJid, { text: `${BOT_EMOJI}\n\n${menuMessage()}` })
                 break

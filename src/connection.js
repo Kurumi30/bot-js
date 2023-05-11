@@ -10,7 +10,6 @@ async function connect() {
         printQRInTerminal: true,
         auth: state,
         defaultQueryTimeoutMs: undefined,
-        logger: "error"
     })
 
     bot.ev.on('connection.update', (update) => {
