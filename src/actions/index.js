@@ -43,17 +43,17 @@ class Action {
                 return
             }
 
-            // const { cep, logradouro, complemento, bairro, localidade, uf, ibge } = data
+            const { cep, logradouro, complemento, bairro, localidade, uf, ibge } = data
 
             await this.bot.sendMessage(this.remoteJid, {
                 text: `${BOT_EMOJI} *Resultado*:
-                *CEP*: ${data.cep}
-                *Logradouro*: ${data.logradouro}
-                *Complemento*: ${data.complemento}
-                *Bairro*: ${data.bairro}
-                *Localidade*: ${data.localidade}
-                *UF*: ${data.uf}
-                *IBGE*: ${data.ibge}`
+                *CEP*: ${cep}
+                *Logradouro*: ${logradouro}
+                *Complemento*: ${complemento}
+                *Bairro*: ${bairro}
+                *Localidade*: ${localidade}
+                *UF*: ${uf}
+                *IBGE*: ${ibge}`
             })
         } catch (error) {
             console.error(error)

@@ -1,7 +1,7 @@
 {
   "name": "bot-w",
   "version": "1.0.0",
-  "description": "Bot de whatsapp feito apenas com javascript",
+  "description": "Bot de whatsapp feito com javascript",
   "main": "index.js",
   "scripts": {
     "start": "node ./src/index",
